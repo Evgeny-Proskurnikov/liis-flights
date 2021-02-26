@@ -1,0 +1,136 @@
+.modal__form {
+  max-width: 345px;
+  width: 100%;
+  margin: 0 auto 0;
+  background-color: #FFF;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__input {
+  width: 100%;
+  height: 34px;
+  margin: 0 auto 0;
+  border: 1px solid #C9CACC;
+  box-sizing: border-box;
+  border-radius: 4px;
+  outline: none;
+
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.modal__input_type_error {
+  border: 1px solid #FF0000;
+}
+
+.modal__input-error {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.16;
+  color: #FF0000;
+  margin: 5px 0 12px;
+  display: block;
+}
+
+.modal__input-name {
+  margin: 25px 0 8px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.modal__input-name:first-of-type {
+  margin: 0 0 8px;
+}
+
+.modal__save-button {
+  align-self: flex-end;
+  width: fit-content;
+  height: 34px;
+  background: linear-gradient(104.34deg, #3C4CAD -15.34%, #00C3FF 145.95%);
+  border-radius: 4px;
+  border: none;
+  margin: 25px 0 36px;
+  padding: 0 30px 0;
+  outline: none;
+  color: #FFFFFF;
+  transition: 0.2s linear;
+
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.modal__save-button:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 4px #99A0A3;
+}
+
+.modal__save-button:focus {
+  background: linear-gradient(104.34deg, #5362BE -15.34%, #4AD5FF 145.95%);
+  border: 1.5px solid rgba(29, 138, 216, 0.3);
+}
+
+.modal__save-button_inactive {
+  background-color: #E6E8EB;
+  color: #B6BCBF;
+}
+
+.modal__save-button_inactive:hover {
+  background-color: #E6E8EB;
+  color: #B6BCBF;
+  cursor: unset;
+}
+
+.modal__text {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.21;
+  text-align: right;
+  margin: 0;
+  position: absolute;
+  top: 102%;
+  right: 32px;
+}
+
+.modal__link {
+  color: #2F71E5;
+  transition: .5s linear;
+}
+
+.modal__link:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+@media screen and (max-width: 520px) {
+  .modal__form {
+    max-width: calc(100% - 32px);
+  }
+
+  .modal__input {
+    max-width: unset;
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  .modal__save-button {
+    margin: 24px 0 16px;
+  }
+
+  .modal__text {
+    margin: 0;
+  }
+}

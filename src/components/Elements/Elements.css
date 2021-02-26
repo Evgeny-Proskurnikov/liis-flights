@@ -1,0 +1,16 @@
+.elements {
+  max-height: 550px;
+  overflow-y: scroll;
+}
+
+.elements::-webkit-scrollbar {
+  width: 2px;
+  border: 2px solid #E7E7E7;
+  border-radius: 2px;
+}
+
+.elements::-webkit-scrollbar-thumb {
+  width: 2px;
+  border: 2px solid #1157A7;
+  border-radius: 2px;
+}

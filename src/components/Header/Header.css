@@ -1,0 +1,56 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px 0;
+  min-height: 80px;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+.header__logo {
+  width: 150px;
+  transition: 0.5s linear;
+  color: inherit;
+  margin: 0;
+  
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.2;
+}
+ 
+.header__logo:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.header__auth-btn {
+  background-color: unset;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+  outline: none;
+  color: inherit;
+  transition: 0.5s linear;
+
+  font-family: 'Roboto', sans-serif;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.header__auth-btn:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.header__logout {
+  height: 24px;
+  width: 24px;
+  background-image: url('../../images/logout.svg');
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 5px;
+}

@@ -1,0 +1,23 @@
+.nav {
+  display: flex;
+}
+
+.nav__link {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.2;
+  align-items: center;
+}
+
+.nav__arrow {
+  background-image: url('../../images/arrow.svg');
+  background-size: cover;
+  align-self: center;
+  width: 9px;
+  height: 17px;
+  margin: 0 20px 0;
+}
+

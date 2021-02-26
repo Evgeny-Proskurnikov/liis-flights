@@ -1,0 +1,18 @@
+.flights-list {
+  padding: 30px 40px 54px;
+  box-sizing: border-box;
+}
+
+.flights-list__favorites {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.29;
+}
+
+.flights-list__favcounter {
+  font-weight: bold;
+  color: #1157A7;
+}

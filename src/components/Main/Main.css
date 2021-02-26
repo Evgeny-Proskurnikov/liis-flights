@@ -1,0 +1,13 @@
+.main {
+  background-image: url('../../images/flights-main.jpg');
+  background-size: cover;
+  width: 100%;
+  min-height: 85vh;
+  padding: 80px 0 80px;
+  margin-top: -80px;
+  transition: .5s linear;
+}
+
+.main_type_flights {
+  background: #F3F4F5;
+}

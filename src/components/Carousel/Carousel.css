@@ -1,0 +1,19 @@
+.carousel {
+  display: flex;
+  margin: 0 40px 0;
+  box-sizing: border-box;
+  overflow-x: scroll;
+}
+
+.carousel::-webkit-scrollbar {
+  height: 4px;
+  border: 3px solid #E7E7E7;
+  border-radius: 2px;
+  margin-top: 10px;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+  height: 4px;
+  border: 3px solid #1157A7;
+  border-radius: 2px;
+}

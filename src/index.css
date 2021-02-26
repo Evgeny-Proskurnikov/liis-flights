@@ -1,0 +1,15 @@
+@import url(./vendor/normalize.css);
+@import url(./fonts/fonts.css);
+@import url(./components/App/App.css);
+@import url(./components/Header/Header.css);
+@import url(./components/Main/Main.css);
+@import url(./components/FlightCard/FlightCard.css);
+@import url(./components/FlightsList/FlightsList.css);
+@import url(./components/ModalWithForm/ModalWithForm.css);
+@import url(./components/ModalForm/ModalForm.css);
+@import url(./components/Elements/Elements.css);
+@import url(./components/Spinner/Spinner.css);
+@import url(./components/Flights/Flights.css);
+@import url(./components/Nav/Nav.css);
+@import url(./components/FlightDate/FlightDate.css);
+@import url(./components/Carousel/Carousel.css);

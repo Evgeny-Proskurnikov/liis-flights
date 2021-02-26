@@ -1,0 +1,115 @@
+.card {
+  max-width: 588px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: 
+  'img routecont favbtn'
+  'img routecont price';
+  gap: 24px;
+  border-bottom: 1px solid rgba(135, 135, 135, 0.2);
+  padding: 20px 0 22px;
+}
+
+.card__image {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: rgba(0, 119, 255, 0.05);
+  background-image: url('../../images/plane.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  grid-area: img;
+}
+
+.card__container {
+  grid-area: routecont;
+}
+
+.card__route {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card__maintext {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.29;
+  color: #424242;
+}
+
+.card__arrow {
+  width: 12px;
+  height: 8px;
+  background-image: url('../../images/card-arrow.svg');
+  background-size: cover;
+}
+
+.card__date {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card__text {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.57;
+  color: #878787;
+}
+
+.card__dash {
+  width: 9px;
+  height: 1px;
+  background-image: url('../../images/dash.svg');
+  background-size: cover;
+}
+
+.card__favorite-btn {
+  justify-self: flex-end;
+  height: 18px;
+  width: 21px;
+  padding: 0;
+  background-image: url('../../images/favbtn.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: unset;
+  border: 0;
+  outline: none;
+  transition: .5s linear;
+}
+
+.card__favorite-btn:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.card__favorite-btn_marked {
+  background-image: url('../../images/favbtn-active.svg');
+}
+
+.card__price {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 11px;
+  line-height: 2.0;
+  color: #878787;
+}
+
+.card__count {
+  margin-left: 8px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 17px;
+  line-height: 1.29;
+  color: #424242;
+}

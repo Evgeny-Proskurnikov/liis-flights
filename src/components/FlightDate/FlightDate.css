@@ -1,0 +1,28 @@
+.date__form {
+  align-self: center;
+}
+
+.date__input {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 25px;
+  line-height: .88;
+  color: #1157A7;
+  border: none;
+  outline: none;
+}
+
+.date__input::-webkit-calendar-picker-indicator {
+  width: 18px;
+  height: 22px;
+  margin-left: -30px;
+  background-image: url('../../images/calendar.svg');
+  background-size: cover;
+  transition: .5s linear;
+}
+
+.date__input::-webkit-calendar-picker-indicator:hover {
+  cursor: pointer;
+  opacity: .5;
+}
