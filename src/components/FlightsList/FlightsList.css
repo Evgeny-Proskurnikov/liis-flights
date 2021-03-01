@@ -1,6 +1,7 @@
 .flights-list {
   padding: 30px 40px 54px;
   box-sizing: border-box;
+  position: relative;
 }
 
 .flights-list__favorites {

@@ -1,14 +1,21 @@
-.date__form {
-  align-self: center;
+.date {
+  display: flex;
+  align-items: center;
 }
 
-.date__input {
+.date__daymonthyear {
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 25px;
   line-height: .88;
   color: #1157A7;
+  margin: 0;
+}
+
+.date__input {
+  width: 20px;
+  margin-left: 15px;
   border: none;
   outline: none;
 }
@@ -25,4 +32,8 @@
 .date__input::-webkit-calendar-picker-indicator:hover {
   cursor: pointer;
   opacity: .5;
+}
+
+.date__input::-webkit-datetime-edit-fields-wrapper {
+  display: none;
 }

@@ -1,42 +1,43 @@
 import { React, useState, useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import * as auth from '../../utils/auth';
-import newsRequest from '../../utils/NewsApi';
+import flightsRequest from '../../utils/SkyscannerApi';
 import apiRequest from '../../utils/api';
-import { formatDate } from '../../utils/utils';
+import { formatDate, formatEnDate, today } from '../../utils/utils';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import AuthModal from '../AuthModal/AuthModal';
 import RegisterModal from '../RegisterModal/RegisterModal';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Flights from '../Flights/Flights';
-import { images, flightCards } from '../../utils/data';
+import { images } from '../../utils/data';
 
 
 function App() {
   const [ authModalState, setAuthModalState ] = useState(false);
   const [ regModalState, setRegModalState ] = useState(false);
   const [ blurState, setBlurState ] = useState(false);
-  const [ cards, setCards ] = useState(flightCards);
+  const [ cards, setCards ] = useState([]);
   const [ favoriteCards, setFavoriteCards ] = useState([]);
   const [ formLoadingState, setFormLoadingState ] = useState(false);
   const [ headerSpinnerState, setHeaderSpinnerState ] = useState(false);
+  const [ spinnerState, setSpinnerState ] = useState(false);
   const [ loggedIn, setLoggedIn ] = useState(true);
   const [ isUserExist, setUserExist ] = useState(false);
   const [ currentUser, setCurrentUser ] = useState('Evgeny');
   const [ carouselImages, setCarouselImages ] = useState(images);
-
+  const [ date, setDate ] = useState(formatDate(today));
   const history = useHistory();
-  // useEffect(() => {
+
+  useEffect(() => {
     // получаем массив ключей localStorage, если в массиве есть cards
     // достаём из хранилища карточки и записываем в стейт
-    // if (Object.keys(localStorage).includes('cards')) {
-    //   const storedCards = JSON.parse(localStorage.getItem('cards'));
-    //   setCards(storedCards);
-    //   setNewsFound(true);
-    // }
+    if (Object.keys(localStorage).includes('cards')) {
+      const storedCards = JSON.parse(localStorage.getItem('cards'));
+      setCards(storedCards);
+    }
     // tokenCheck();
-  // }, []) // eslint-disable-line
+  }, []) // eslint-disable-line
 
   // открытие модальных окон
   function openAuthModal() {
@@ -72,36 +73,44 @@ function App() {
     }
   }
 
-  // поиск новостей
-  function handleSearch(query) {
-    setFormLoadingState(true);
+  // записываем дату из календаря в стейт
+  function handleSetDate(date) {
+    setDate(formatDate(date));
+  }
 
-    newsRequest.getNews(query)
+  // поиск рейсов
+  function handleGetFlights(date) {
+    setSpinnerState(true);
+    flightsRequest.getFlights(date)
       .then(res => {
-        if (res.articles.length === 0) {
-          console.log('!');
+        console.log(res)
+        if (res.Quotes.length === 0) {
+          console.log('Рейсы не найдены');
+          return;
         }
-        const cards = res.articles.map(el => {
+        const cards = res.Quotes.map(el => {
+          const originPlace = res.Places.find(i => i.PlaceId === el.OutboundLeg.OriginId);
+          const destinationPlace = res.Places.find(i => i.PlaceId === el.OutboundLeg.DestinationId);
+          const departureDate = formatEnDate(el.OutboundLeg.DepartureDate);
+          const carrier = res.Carriers.find(i => i.CarrierId === el.OutboundLeg.CarrierIds[0]);
+
           return {
-            keyword: query,
-            title: el.title,
-            text: el.description,
-            date: formatDate(el.publishedAt),
-            source: el.source.name, 
-            link: el.url, 
-            image: el.urlToImage,
+            departure: `${originPlace.CityName} (${originPlace.IataCode})`,
+            arrival: `${destinationPlace.CityName} (${destinationPlace.IataCode})`,
+            date: departureDate,
+            time: '13:00',
+            airlines: carrier.Name,
+            price: `${el.MinPrice} ${res.Currencies[0].Symbol}`,
             isMarked: false
           }
         });
         localStorage.setItem('cards', JSON.stringify(cards));
         setCards(cards);
-        // setPreloaderState(false);
       })
       .catch(err => {
         console.log(err);
-        // setPreloaderState(false);
       })
-      .finally(() => setFormLoadingState(false));
+      .finally(() => setSpinnerState(false));
   }
 
   // добавление карточки в избранное
@@ -110,7 +119,7 @@ function App() {
     const { __v, isMarked, ...favCard } = card;
     
     apiRequest.saveArticle(favCard)
-      .then((newCard) => {
+      .then((newCard) => {  
         const markedCard = {...newCard, isMarked: true};
         setFavoriteCards([markedCard, ...favoriteCards]);
 
@@ -249,7 +258,11 @@ function App() {
               <Flights 
                 loggedIn={loggedIn} 
                 carouselImages={carouselImages} 
-                cards={cards} 
+                cards={cards}
+                handleSetDate={handleSetDate}
+                date={date}
+                handleGetFlights={handleGetFlights}
+                spinnerState={spinnerState}
               />
             } 
           />

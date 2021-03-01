@@ -4,15 +4,25 @@ import FlightDate from '../FlightDate/FlightDate';
 import Nav from '../Nav/Nav';
 import FlightsList from '../FlightsList/FlightsList';
 
-function Flights({ cards, loggedIn, addToFavorite, removeFromFavorite, spinnerState, carouselImages }) {
+function Flights({
+  cards,
+  loggedIn,
+  addToFavorite,
+  removeFromFavorite,
+  spinnerState,
+  carouselImages,
+  handleSetDate,
+  date,
+  handleGetFlights
+}) {
   return (
     <section className="flights">
       <div className="flights__header">
         <Nav />
-        <FlightDate />
+        <FlightDate handleSetDate={handleSetDate} date={date} handleGetFlights={handleGetFlights} />
       </div>
       <Carousel images={carouselImages}/>
-      <FlightsList cards={cards}/>
+      <FlightsList cards={cards} spinnerState={spinnerState} />
     </section>
   )
 }

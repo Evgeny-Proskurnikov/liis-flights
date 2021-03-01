@@ -11,4 +11,19 @@ export const MONTHS = [
   "октября",
   "ноября",
   "декабря"
-]
+];
+
+export const EN_MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];

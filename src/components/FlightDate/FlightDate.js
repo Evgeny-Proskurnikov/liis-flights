@@ -1,19 +1,16 @@
 import React from 'react';
-import { useForm } from "react-hook-form";
 
-function FlightDate() {
-  const { handleSubmit } = useForm();
-
-  const today = new Date().toISOString().substr(0, 10);
-
-  function onSubmit(data) {
-    console.log(data);
+function FlightDate({ date, handleSetDate, handleGetFlights }) {
+  function handleInputChange(evt) {
+    handleSetDate(evt.target.value);
+    handleGetFlights(evt.target.value);
   };
 
   return (
-    <form className="date__form" name='date-form' onSubmit={handleSubmit(onSubmit)}>
-      <input name="date" type="date" className="date__input" defaultValue={today}/>
-    </form>
+    <div className="date">
+      <p className="date__daymonthyear">{date}</p>
+      <input name="date" type="date" className="date__input" onChange={handleInputChange}/>
+    </div>
   )
 }
 

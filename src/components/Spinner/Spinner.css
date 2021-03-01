@@ -1,14 +1,14 @@
 .spinner {
 	display: block;
-	width: 70px;
-	height: 70px;
+	width: 40px;
+	height: 40px;
 	border: 3px solid #444;
 	border-bottom-color: #888;
 	border-radius: 50%;
 	
 	position: absolute;
-	top: 16%;
-  left: 42%;
+	top: 100%;
+  left: 48%;
 	
 	animation: spin .75s infinite linear;
 }

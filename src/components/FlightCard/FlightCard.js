@@ -32,7 +32,7 @@ function NewsCard({
         </div>
         <p className="card__text">{card.airlines}</p>
       </div>
-      <button className={favBtnClass} type="button"/>
+      <button className={favBtnClass} type="button" onClick={handleClick}/>
       <p className="card__price">Price: <span className="card__count">{card.price}</span></p>
     </div>
   );
