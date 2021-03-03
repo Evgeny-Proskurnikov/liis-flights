@@ -6,7 +6,6 @@ import FlightsList from '../FlightsList/FlightsList';
 
 function Flights({
   cards,
-  loggedIn,
   addToFavorite,
   removeFromFavorite,
   spinnerState,
@@ -22,7 +21,12 @@ function Flights({
         <FlightDate handleSetDate={handleSetDate} date={date} handleGetFlights={handleGetFlights} />
       </div>
       <Carousel images={carouselImages}/>
-      <FlightsList cards={cards} spinnerState={spinnerState} />
+      <FlightsList
+        cards={cards}
+        spinnerState={spinnerState}
+        addToFavorite={addToFavorite}
+        removeFromFavorite={removeFromFavorite}
+      />
     </section>
   )
 }

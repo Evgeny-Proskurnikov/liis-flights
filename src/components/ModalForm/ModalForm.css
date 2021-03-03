@@ -110,6 +110,12 @@
   transition: .5s linear;
 }
 
+.modal__link_type_success {
+  display: block;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 .modal__link:hover {
   cursor: pointer;
   opacity: 0.7;

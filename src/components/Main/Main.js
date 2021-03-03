@@ -1,14 +1,12 @@
 import React from 'react';
-import cn from 'classnames';
 
-function Main({ children, blurState, loggedIn }) {
+function Main({ children, blurState, mainClass }) {
   const blurStyles = {
     filter: `${blurState ? 'blur(10px)' : 'blur(0px)'}`
   }
-  const mainClass = cn('main', {'main_type_flights': loggedIn });
 
   return (
-    <main className={mainClass} style={blurStyles}>
+    <main className={`main ${mainClass}`} style={blurStyles}>
       {children}
     </main>
   )

@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.nexplorer.evpro.students.nomoreparties.xyz';
+export const BASE_URL = 'https://api.liisflights.students.nomoreparties.xyz';
 
 export const register = (data) => {
   return fetch(`${BASE_URL}/signup`, {

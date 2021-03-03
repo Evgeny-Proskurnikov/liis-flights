@@ -21,7 +21,7 @@ function Header({
         <Spinner typeClass='spinner_type_header' />
         :
         <button type='button' className='header__auth-btn' onClick={handleAuthClick}>
-          {loggedIn ? currentUser : 'Авторизоваться'}
+          {loggedIn ? currentUser.name : 'Авторизоваться'}
           {loggedIn && <span className='header__logout'/>}
         </button>
       }

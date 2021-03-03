@@ -27,3 +27,6 @@ export const EN_MONTHS = [
   "November",
   "December"
 ];
+
+export const ADD_FLIGHT_CARDS = 'ADD_FLIGHT_CARDS';
+export const REMOVE_ALL_ITEMS = 'REMOVE_ALL_ITEMS';

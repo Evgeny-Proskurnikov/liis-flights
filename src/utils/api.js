@@ -3,8 +3,8 @@ export class Api {
     this._url = config.url;
   }
 
-  getArticles() {
-    return fetch(`${this._url}/articles`, {
+  getFlights() {
+    return fetch(`${this._url}/flights`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -19,8 +19,8 @@ export class Api {
       })
   }
 
-  saveArticle(data) {
-    return fetch(`${this._url}/articles`, {
+  saveFlight(data) {
+    return fetch(`${this._url}/flights`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -36,8 +36,8 @@ export class Api {
       })
   }
 
-  deleteArticle(articleId) {
-    return fetch(`${this._url}/articles/${articleId}`, {
+  deleteFlight(flightId) {
+    return fetch(`${this._url}/flights/${flightId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -54,7 +54,7 @@ export class Api {
 }
 
 const apiRequest = new Api({
-  url: 'https://api.nexplorer.evpro.students.nomoreparties.xyz',
+  url: 'https://api.liisflights.students.nomoreparties.xyz',
 })
 
 export default apiRequest;

@@ -8,6 +8,7 @@ import Header from '../Header/Header';
 import Main from '../Main/Main';
 import AuthModal from '../AuthModal/AuthModal';
 import RegisterModal from '../RegisterModal/RegisterModal';
+import SuccessModal from '../SuccessModal/SuccessModal';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Flights from '../Flights/Flights';
 import { images } from '../../utils/data';
@@ -16,15 +17,15 @@ import { images } from '../../utils/data';
 function App() {
   const [ authModalState, setAuthModalState ] = useState(false);
   const [ regModalState, setRegModalState ] = useState(false);
+  const [ successModalState, setSuccessModalState ] = useState(false);
   const [ blurState, setBlurState ] = useState(false);
   const [ cards, setCards ] = useState([]);
-  const [ favoriteCards, setFavoriteCards ] = useState([]);
   const [ formLoadingState, setFormLoadingState ] = useState(false);
   const [ headerSpinnerState, setHeaderSpinnerState ] = useState(false);
   const [ spinnerState, setSpinnerState ] = useState(false);
-  const [ loggedIn, setLoggedIn ] = useState(true);
+  const [ loggedIn, setLoggedIn ] = useState(false);
   const [ isUserExist, setUserExist ] = useState(false);
-  const [ currentUser, setCurrentUser ] = useState('Evgeny');
+  const [ currentUser, setCurrentUser ] = useState({});
   const [ carouselImages, setCarouselImages ] = useState(images);
   const [ date, setDate ] = useState(formatDate(today));
   const history = useHistory();
@@ -36,7 +37,7 @@ function App() {
       const storedCards = JSON.parse(localStorage.getItem('cards'));
       setCards(storedCards);
     }
-    // tokenCheck();
+    tokenCheck();
   }, []) // eslint-disable-line
 
   // открытие модальных окон
@@ -52,6 +53,11 @@ function App() {
     setEscListener();
     setBlurState(true);
   }
+  function openSuccessModal() {
+    closeAllPopups();
+    setSuccessModalState(true);
+    setEscListener();
+  }
 
   // добавление обработчика закрытия модалок на ESC
   function setEscListener() {
@@ -62,6 +68,7 @@ function App() {
   function closeAllPopups() {
     setAuthModalState(false);
     setRegModalState(false);
+    setSuccessModalState(false);
     setBlurState(false);
     document.removeEventListener('keyup', handleEscPopupClose);
   }
@@ -79,16 +86,15 @@ function App() {
   }
 
   // поиск рейсов
-  function handleGetFlights(date) {
+  function handleSearchFlights(date) {
     setSpinnerState(true);
     flightsRequest.getFlights(date)
       .then(res => {
-        console.log(res)
         if (res.Quotes.length === 0) {
           console.log('Рейсы не найдены');
           return;
         }
-        const cards = res.Quotes.map(el => {
+        const foundCards = res.Quotes.map(el => {
           const originPlace = res.Places.find(i => i.PlaceId === el.OutboundLeg.OriginId);
           const destinationPlace = res.Places.find(i => i.PlaceId === el.OutboundLeg.DestinationId);
           const departureDate = formatEnDate(el.OutboundLeg.DepartureDate);
@@ -104,12 +110,26 @@ function App() {
             isMarked: false
           }
         });
-        localStorage.setItem('cards', JSON.stringify(cards));
-        setCards(cards);
+        localStorage.setItem('cards', JSON.stringify([...cards, ...foundCards]));
+        setCards([...cards, ...foundCards]);
       })
       .catch(err => {
         console.log(err);
       })
+      .finally(() => setSpinnerState(false));
+  }
+
+  // получение массива избранных карточек
+  function getFavoriteCards() {
+    setSpinnerState(true);
+    apiRequest.getFlights()
+      .then(cards => {
+        const markedCards = cards.map(c => {
+          return {...c, isMarked: true};
+        });
+        setCards(markedCards);
+      })
+      .catch(err => console.log(err))
       .finally(() => setSpinnerState(false));
   }
 
@@ -118,15 +138,15 @@ function App() {
     // отделяем ненужные поля деструктуризацией
     const { __v, isMarked, ...favCard } = card;
     
-    apiRequest.saveArticle(favCard)
+    apiRequest.saveFlight(favCard)
       .then((newCard) => {  
         const markedCard = {...newCard, isMarked: true};
-        setFavoriteCards([markedCard, ...favoriteCards]);
+        const cardKey = card.price + card.date;
 
         // создаем новый массив чтобы не мутировать стейт
         // по индексу заменяем в массиве карточку
         const refreshedCards = [...cards];
-        const index = cards.findIndex(el => el.link === card.link);
+        const index = cards.findIndex(el => (el.price + el.date) === cardKey);
         refreshedCards.splice(index, 1, markedCard);
         setCards(refreshedCards);
         localStorage.setItem('cards', JSON.stringify(refreshedCards));
@@ -138,16 +158,13 @@ function App() {
  
   // удаление избранной карточки
   function removeFromFavorite(card) {
-    apiRequest.deleteArticle(card._id)
+    apiRequest.deleteFlight(card._id)
       .then(res => {
         console.log(res)
-        // filter возвращает новый массив элементов удовлетворяющих условию
-        const newFavoriteCards = favoriteCards.filter(c => c._id !== card._id);
-        setFavoriteCards(newFavoriteCards);
-
         const { _id, ...newCard } = card;
-        const refreshedCards = [...cards];
-        const index = cards.findIndex(el => el.link === card.link);
+        const cardKey = card.price + card.date;
+        const refreshedCards = [...cards]
+        const index = cards.findIndex(el => (el.price + el.date) === cardKey);
         refreshedCards.splice(index, 1, {...newCard, isMarked: false});
         setCards(refreshedCards);
         localStorage.setItem('cards', JSON.stringify(refreshedCards)); 
@@ -163,6 +180,7 @@ function App() {
     auth.register({ name, email, password })
       .then(user => {
         if (user) {
+          openSuccessModal();
           localStorage.setItem('user', JSON.stringify(user));
         }
       })
@@ -179,17 +197,17 @@ function App() {
   function handleLogin({ email, password }) {
     setFormLoadingState(true);
     function authorizeHandler(user) {
-      // setCurrentUser(user);
+      setCurrentUser(user);
       setLoggedIn(true);
       closeAllPopups();
-      history.push('/saved-news');
+      history.push('/flights');
     }
 
     auth.authorize({ email, password })
       .then(res => {
         if (res) {
           localStorage.setItem('token', res.token);
-          // getFavoriteCards();
+          getFavoriteCards();
           const storageUser = JSON.parse(localStorage.getItem('user'));
           if (!storageUser) {
             return auth.getUserData(res.token)
@@ -219,10 +237,10 @@ function App() {
       auth.getUserData(jwt)
         .then(res => {
           if (res.email) {
-            // getFavoriteCards();
-            // setCurrentUser(res);
+            getFavoriteCards();
+            setCurrentUser(res);
             setLoggedIn(true);
-            history.push('/');
+            history.push('/flights');
           }
         })
         .catch(err => {
@@ -251,28 +269,26 @@ function App() {
         <Route exact path='/'>
           <Main blurState={blurState} />
         </Route>
-        <Route exact path='/flights'>
-          <Main
-            loggedIn={loggedIn}
-            children={
-              <Flights 
-                loggedIn={loggedIn} 
-                carouselImages={carouselImages} 
-                cards={cards}
-                handleSetDate={handleSetDate}
-                date={date}
-                handleGetFlights={handleGetFlights}
-                spinnerState={spinnerState}
-              />
-            } 
-          />
-        </Route>
-        {/* <ProtectedRoute
+        <ProtectedRoute
           exact
           path='/flights'
           loggedIn={loggedIn}
-          headerComponent={Main}
-        /> */}
+          mainComponent={Main}
+          mainClass='main_type_flights'
+          children={
+            <Flights 
+              loggedIn={loggedIn} 
+              carouselImages={carouselImages} 
+              cards={cards}
+              handleSetDate={handleSetDate}
+              date={date}
+              handleGetFlights={handleSearchFlights}
+              spinnerState={spinnerState}
+              addToFavorite={handleAddToFavorite}
+              removeFromFavorite={removeFromFavorite}
+            />
+          }
+        />
       </Switch>
       
       <AuthModal
@@ -290,6 +306,7 @@ function App() {
         isUserExist={isUserExist}
         formLoadingState={formLoadingState}
       /> 
+      <SuccessModal isOpen={successModalState} onClose={closeAllPopups} openAuthModal={openAuthModal} />
     </div>
   );
 }

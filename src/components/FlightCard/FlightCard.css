@@ -92,6 +92,7 @@
 
 .card__favorite-btn_marked {
   background-image: url('../../images/favbtn-active.svg');
+  background-size: unset;
 }
 
 .card__price {

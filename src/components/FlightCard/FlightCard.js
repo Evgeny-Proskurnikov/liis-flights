@@ -1,12 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-function NewsCard({
-  card,
-  addToFavorite,
-  removeFromFavorite,
-  loggedIn,
-}) {
+function FlightCard({ card, addToFavorite, removeFromFavorite }) {
   const favBtnClass = cn(
     "card__favorite-btn", 
     { "card__favorite-btn_marked": card.isMarked }
@@ -38,4 +33,4 @@ function NewsCard({
   );
 }
 
-export default NewsCard;
+export default FlightCard;
