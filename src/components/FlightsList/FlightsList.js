@@ -1,10 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import { formatTitle } from '../../utils/utils';
 import Elements from '../Elements/Elements';
 import Spinner from '../Spinner/Spinner';
 
-function FlightsList({ cards, addToFavorite, removeFromFavorite, spinnerState }) {
-  const favoriteCards = cards.filter(c => c.isMarked === true)
+function FlightsList({ stateCards, loading }) {
+  const favoriteCards = stateCards.filter(c => c.isMarked === true)
 
   return (
     <section className="flights-list">
@@ -13,18 +14,14 @@ function FlightsList({ cards, addToFavorite, removeFromFavorite, spinnerState })
         <span className="flights-list__favcounter">{favoriteCards.length}</span>
         &ensp;{formatTitle(favoriteCards)}
       </p>
-      {spinnerState ?
-        <Spinner />
-        :
-        <Elements
-          cards={cards}
-          addToFavorite={addToFavorite}
-          removeFromFavorite={removeFromFavorite}
-          spinnerState={spinnerState}
-        />
-      }
+      {loading ? <Spinner /> : <Elements />}
     </section>
   )
 }
 
-export default FlightsList;
+const mapStateToProps = (state) => ({
+  stateCards: state.cardsData,
+  loading: state.loading,
+});
+
+export default (connect(mapStateToProps))(FlightsList);

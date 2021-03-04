@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { fetchSearchCards } from '../../actions';
 
 function FlightDate({ date, handleSetDate, handleGetFlights }) {
   function handleInputChange(evt) {
@@ -14,4 +16,8 @@ function FlightDate({ date, handleSetDate, handleGetFlights }) {
   )
 }
 
-export default FlightDate;
+const mapDispatchToProps = (dispatch) => ({
+  handleGetFlights: item => dispatch(fetchSearchCards(item)),
+});
+
+export default (connect(null, mapDispatchToProps))(FlightDate);

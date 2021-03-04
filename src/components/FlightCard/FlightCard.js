@@ -1,14 +1,16 @@
 import React from "react";
+import { connect } from 'react-redux';
 import cn from "classnames";
+import { fetchAddFavCard, fetchRemoveFavCard } from "../../actions";
 
-function FlightCard({ card, addToFavorite, removeFromFavorite }) {
+function FlightCard({ card, removeFavStoreCard, addFavCardToStore }) {
   const favBtnClass = cn(
     "card__favorite-btn", 
     { "card__favorite-btn_marked": card.isMarked }
   );
 
   function handleClick() {
-    card.isMarked ? removeFromFavorite(card) : addToFavorite(card);
+    card.isMarked ? removeFavStoreCard(card) : addFavCardToStore(card);
   }
 
   return (
@@ -33,4 +35,9 @@ function FlightCard({ card, addToFavorite, removeFromFavorite }) {
   );
 }
 
-export default FlightCard;
+const mapDispatchToProps = (dispatch) => ({
+  addFavCardToStore: item => dispatch(fetchAddFavCard(item)),
+  removeFavStoreCard: item => dispatch(fetchRemoveFavCard(item)),
+});
+
+export default (connect(null, mapDispatchToProps))(FlightCard);

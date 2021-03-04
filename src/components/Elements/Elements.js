@@ -1,19 +1,23 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
+import { connect } from 'react-redux'
 import FlightCard from '../FlightCard/FlightCard'
 
-function Elements({ cards, addToFavorite, removeFromFavorite }) {  
+function Elements({ stateCards }) {  
   return (
     <div className="elements">
-      {cards.map(el => {
+      {stateCards.map(el => {
         return <FlightCard
           card={el}
-          key={el.price + el.date}
-          addToFavorite={addToFavorite}
-          removeFromFavorite={removeFromFavorite}
+          key={uuid()}
         />
       })}
     </div>
   )
 }
 
-export default Elements;
+const mapStateToProps = (state) => ({
+  stateCards: state.cardsData,
+});
+
+export default (connect(mapStateToProps))(Elements);
